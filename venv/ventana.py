@@ -6,7 +6,7 @@ def accion():
 
 #VentanaEmergente(Info)
 def VEI():
-    messagebox.showinfo("Hola","holo como estas tu")
+    messagebox.showinfo("Hola","hola como estas tu")
 
 
 #Declaracion de la ventana
