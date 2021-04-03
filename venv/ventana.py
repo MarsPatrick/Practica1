@@ -1,29 +1,30 @@
-from tkinter import Tk, Label, Button, messagebox
+from tkinter import *
 
-#Una accion generica
+# Una accion generica
 def accion():
     print("Lo que hara")
 
-#VentanaEmergente(Info)
+
+# VentanaEmergente(Info)
 def VEI():
-    messagebox.showinfo("Hola","holaaa como estas tu")
+    messagebox.showinfo("Hola", "holaaa como estas tu")
 
 
-#Declaracion de la ventana
+# Declaracion de la ventana
 ventana = Tk()
 
-#Tamaño de la ventana
+# Tamaño de la ventana
 ventana.geometry("600x480")
 
-#Titulo de la ventana
+# Titulo de la ventana
 ventana.title("Titulo")
 
-#Label
+# Label
 lbl = Label(ventana, text='El label')
-lbl.pack()
+lbl.pack(side=TOP)
 
-#Button
+# Button
 btn = Button(ventana, text='El boton', command=VEI)
-btn.pack()
+btn.pack(side=BOTTOM)
 
 ventana.mainloop()
