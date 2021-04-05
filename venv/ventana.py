@@ -1,13 +1,17 @@
 from tkinter import *
+from tkinter import messagebox
+
 
 # Una accion generica
 def accion():
     print("Lo que hara")
 
 
+
 # VentanaEmergente(Info)
 def VEI():
     messagebox.showinfo("Hola", "holaaa como estas tu")
+    import camara
 
 
 # Declaracion de la ventana
@@ -26,5 +30,6 @@ lbl.pack(side=TOP)
 # Button
 btn = Button(ventana, text='El boton', command=VEI)
 btn.pack(side=BOTTOM)
+
 
 ventana.mainloop()

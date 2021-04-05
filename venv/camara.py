@@ -5,6 +5,7 @@ import numpy as np
 
 captura = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 
+
 while True:
 
     ret, frame = captura.read()
@@ -40,6 +41,7 @@ while True:
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
 
 captura.release()
 cv2.destroyAllWindows()
