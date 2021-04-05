@@ -27,4 +27,6 @@ lbl.pack(side=TOP)
 btn = Button(ventana, text='El boton', command=VEI)
 btn.pack(side=BOTTOM)
 
+jajajameequivoque
+
 ventana.mainloop()
