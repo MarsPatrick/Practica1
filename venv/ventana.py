@@ -55,16 +55,18 @@ def visualizar():
             lblVideo.after(10, visualizar)
         else:
             lblVideo.image = ""
-            cap.release()
+            finalizar()
+
 
 def finalizar():
     global cap
+    cap.release()
+    lblimg.grid(column=0, row=0, columnspan=2)
     btn0['state'] = NORMAL
     btn1['state'] = DISABLED
     btn2['state'] = DISABLED
     btn3['state'] = DISABLED
-    cap.release()
-    lblimg.grid(column=0, row=0, columnspan=2)
+
 
 
 ### Ventana
