@@ -18,6 +18,8 @@ def vei():
 def iniciar():
     global cap
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    btn0['state'] = DISABLED
+    btn1['state'] = NORMAL
     visualizar()
 
 def visualizar():
@@ -38,6 +40,8 @@ def visualizar():
 
 def finalizar():
     global cap
+    btn1['state'] = DISABLED
+    btn0['state'] = NORMAL
     cap.release()
 
 
@@ -61,19 +65,19 @@ ventana.geometry("900x500")
 ventana.title("Titulo")
 
 # Button
-btn0 = Button(left_frame, text='Ver previa', command=iniciar)
+btn0 = Button(left_frame, text='Ver previa',padx=12,pady=105,command=iniciar)
 btn0.grid(column=0, row=0, padx=5, pady=5)
 
 # Button
-btn1 = Button(left_frame, text='Ocultar previa', command=finalizar)
+btn1 = Button(left_frame, text='Ocultar previa',pady=105, command=finalizar,state=DISABLED)
 btn1.grid(column=0, row=1, padx=5, pady=5)
 
 # Button
-btn2 = Button(right_frame, text='Tomar foto', command=vei)
+btn2 = Button(right_frame, text='Tomar foto',padx=11,pady=105, command=vei)
 btn2.grid(column=0, row=0, padx=5, pady=5)
 
 # Button
-btn3 = Button(right_frame, text='Tomar foto 360', command=vei)
+btn3 = Button(right_frame, text='Tomar foto 360',pady=105, command=vei)
 btn3.grid(column=0, row=1, padx=5, pady=5)
 
 # Video
