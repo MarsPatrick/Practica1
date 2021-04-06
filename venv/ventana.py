@@ -45,12 +45,14 @@ def visualizar():
         else:
             lblVideo.image = ""
             cap.release()
+
+            ##ARREGLAR
             btn0['state'] = NORMAL
             btn1['state'] = DISABLED
             btn2['state'] = DISABLED
             btn3['state'] = DISABLED
             lblimg.grid(column=0, row=0, columnspan=2)
-            messagebox.showerror("ERROR","NO HAY CAMARA")
+            messagebox.showerror("ERROR", "NO HAY CAMARA")
 
 def finalizar():
     global cap
