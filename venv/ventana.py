@@ -6,6 +6,8 @@ import cv2
 import imutils
 import uuid
 
+
+
 # Tomar  Foto Total (360)
 def tft():
     print("Lo que hara")
@@ -22,6 +24,7 @@ def tf():
 
 def iniciar():
     global cap
+    global x
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     btn0['state'] = DISABLED
     btn1['state'] = NORMAL
@@ -32,6 +35,7 @@ def iniciar():
 
 def visualizar():
     global cap
+    global x
     if cap is not None:
         ret, frame = cap.read()
         if ret == True:
@@ -46,16 +50,25 @@ def visualizar():
             lblVideo.image = ""
             cap.release()
 
-            ##ARREGLAR
+
             btn0['state'] = NORMAL
             btn1['state'] = DISABLED
             btn2['state'] = DISABLED
             btn3['state'] = DISABLED
-            lblimg.grid(column=0, row=0, columnspan=2)
-            messagebox.showerror("ERROR", "NO HAY CAMARA")
+
+            if x==1:
+               lblimg.grid(column=0, row=0, columnspan=2)
+               messagebox.showerror("ERROR", "NO HAY CAMARA")
+            x=1
+
+
+
+
 
 def finalizar():
     global cap
+    global x
+    x=0
     btn0['state'] = NORMAL
     btn1['state'] = DISABLED
     btn2['state'] = DISABLED
