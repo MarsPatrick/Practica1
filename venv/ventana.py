@@ -50,7 +50,7 @@ def visualizar():
             lblVideo.image = ""
             cap.release()
 
-
+           #arreglado
             btn0['state'] = NORMAL
             btn1['state'] = DISABLED
             btn2['state'] = DISABLED
