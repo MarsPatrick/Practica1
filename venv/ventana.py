@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 from PIL import Image
 from PIL import ImageTk
 import cv2
@@ -74,7 +75,7 @@ def finalizar():
 ventana = Tk()
 
 # Tamaño de la ventana
-ventana.geometry("870x500")
+ventana.geometry("870x530")
 
 # Titulo de la ventana
 ventana.title("Titulo")
@@ -101,11 +102,11 @@ btn1 = Button(left_frame, text='Ocultar previa',pady=105, command=finalizar,stat
 btn1.grid(column=0, row=1, padx=5, pady=5)
 
 # Button 2
-btn2 = Button(right_frame, text='Tomar foto',padx=11,pady=105, command=tf,state=DISABLED)
+btn2 = Button(right_frame, text='Tomar foto',padx=11,pady=113, command=tf,state=DISABLED)
 btn2.grid(column=0, row=0, padx=5, pady=5)
 
 # Button 3
-btn3 = Button(right_frame, text='Tomar foto 360',pady=105, command=tft,state=DISABLED)
+btn3 = Button(right_frame, text='Tomar foto 360',pady=113, command=tft,state=DISABLED)
 btn3.grid(column=0, row=1, padx=5, pady=5)
 
 # Video
@@ -116,5 +117,10 @@ img = Image.open('x.gif')
 imgn = ImageTk.PhotoImage(img)
 lblimg = Label(mid_frame, image=imgn)
 lblimg.grid(column=0, row=0, columnspan=2)
+
+##A implementar cuando exista mas de una camara
+combo = ttk.Combobox(left_frame, state="disabled",width=10)
+combo["values"] = ["Python", "C", "C++", "Java"]
+combo.grid(column=0, row=2, padx=5, pady=5)
 
 ventana.mainloop()
