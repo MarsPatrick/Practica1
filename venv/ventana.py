@@ -8,26 +8,27 @@ import imutils
 import uuid
 
 
-
 # Tomar  Foto Total (360)
 def tft():
     print("Lo que hara")
 
+
 # Tomar Foto
 def tf():
     leido, frame = cap.read()
-    if leido == True:
+    if leido:
         nombre_foto = str(uuid.uuid4()) + ".png"
         cv2.imwrite(nombre_foto, frame)
         print("Foto tomada correctamente")
     else:
         print("Error al acceder a la cámara")
 
+
 def iniciar():
     global cap
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
-    if cap is None or not cap.isOpened() :
+    if cap is None or not cap.isOpened():
         btn0['state'] = NORMAL
         btn1['state'] = DISABLED
         btn2['state'] = DISABLED
@@ -42,11 +43,12 @@ def iniciar():
         lblimg.grid_forget()
         visualizar()
 
+
 def visualizar():
     global cap
     if cap is not None:
         ret, frame = cap.read()
-        if ret == True:
+        if ret:
             frame = imutils.resize(frame, width=640)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             im = Image.fromarray(frame)
@@ -69,9 +71,8 @@ def finalizar():
     btn3['state'] = DISABLED
 
 
-
-### Ventana
-#Creacion de Ventana
+# Ventana
+# Creacion de Ventana
 ventana = Tk()
 
 # Tamaño de la ventana
@@ -80,7 +81,7 @@ ventana.geometry("870x530")
 # Titulo de la ventana
 ventana.title("Titulo")
 
-### Creacion de Frames
+# Creacion de Frames
 left_frame = Frame(ventana, width=200, height=400, bg='grey')
 left_frame.grid(row=0, column=0, padx=5, pady=5)
 
@@ -90,27 +91,25 @@ mid_frame.grid(row=0, column=1, padx=5, pady=5)
 right_frame = Frame(ventana, width=650, height=400, bg='grey')
 right_frame.grid(row=0, column=2, padx=5, pady=5)
 
-
-
-### Botones
+# Botones
 # Button 0
-btn0 = Button(left_frame, text='Ver previa',padx=12,pady=105,command=iniciar)
+btn0 = Button(left_frame, text='Ver previa', padx=12, pady=105, command=iniciar)
 btn0.grid(column=0, row=0, padx=5, pady=5)
 
 # Button 1
-btn1 = Button(left_frame, text='Ocultar previa',pady=105, command=finalizar,state=DISABLED)
+btn1 = Button(left_frame, text='Ocultar previa', pady=105, command=finalizar, state=DISABLED)
 btn1.grid(column=0, row=1, padx=5, pady=5)
 
 # Button 2
-btn2 = Button(right_frame, text='Tomar foto',padx=11,pady=113, command=tf,state=DISABLED)
+btn2 = Button(right_frame, text='Tomar foto', padx=11, pady=113, command=tf, state=DISABLED)
 btn2.grid(column=0, row=0, padx=5, pady=5)
 
 # Button 3
-btn3 = Button(right_frame, text='Tomar foto 360',pady=113, command=tft,state=DISABLED)
+btn3 = Button(right_frame, text='Tomar foto 360', pady=113, command=tft, state=DISABLED)
 btn3.grid(column=0, row=1, padx=5, pady=5)
 
 # Video
-lblVideo= Label(mid_frame)
+lblVideo = Label(mid_frame)
 lblVideo.grid(column=0, row=0, columnspan=2)
 
 img = Image.open('x.gif')
@@ -118,8 +117,8 @@ imgn = ImageTk.PhotoImage(img)
 lblimg = Label(mid_frame, image=imgn)
 lblimg.grid(column=0, row=0, columnspan=2)
 
-##A implementar cuando exista mas de una camara
-combo = ttk.Combobox(left_frame, state="disabled",width=10)
+# A implementar cuando exista mas de una camara
+combo = ttk.Combobox(left_frame, state="disabled", width=10)
 combo["values"] = ["Python", "C", "C++", "Java"]
 combo.grid(column=0, row=2, padx=5, pady=5)
 
