@@ -24,18 +24,25 @@ def tf():
 
 def iniciar():
     global cap
-    global x
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-    btn0['state'] = DISABLED
-    btn1['state'] = NORMAL
-    btn2['state'] = NORMAL
-    btn3['state'] = NORMAL
-    lblimg.grid_forget()
-    visualizar()
+
+    if cap is None or not cap.isOpened() :
+        btn0['state'] = NORMAL
+        btn1['state'] = DISABLED
+        btn2['state'] = DISABLED
+        btn3['state'] = DISABLED
+        lblimg.grid(column=0, row=0, columnspan=2)
+        messagebox.showerror("ERROR", "NO HAY CAMARA")
+    else:
+        btn0['state'] = DISABLED
+        btn1['state'] = NORMAL
+        btn2['state'] = NORMAL
+        btn3['state'] = NORMAL
+        lblimg.grid_forget()
+        visualizar()
 
 def visualizar():
     global cap
-    global x
     if cap is not None:
         ret, frame = cap.read()
         if ret == True:
@@ -50,25 +57,8 @@ def visualizar():
             lblVideo.image = ""
             cap.release()
 
-
-            btn0['state'] = NORMAL
-            btn1['state'] = DISABLED
-            btn2['state'] = DISABLED
-            btn3['state'] = DISABLED
-
-            if x==1:
-               lblimg.grid(column=0, row=0, columnspan=2)
-               messagebox.showerror("ERROR", "NO HAY CAMARA")
-            x=1
-
-
-
-
-
 def finalizar():
     global cap
-    global x
-    x=0
     btn0['state'] = NORMAL
     btn1['state'] = DISABLED
     btn2['state'] = DISABLED
