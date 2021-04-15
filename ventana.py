@@ -51,6 +51,14 @@ def visualizar():
         if ret:
             frame = imutils.resize(frame, width=640)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+            toy = objetoClassif.detectMultiScale(gray, scaleFactor=5, minNeighbors=91, minSize=(70, 78))
+
+            for (x, y, w, h) in toy:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                cv2.putText(frame, 'Audifono', (x, y - 10), 2, 0.7, (0, 255, 0), 2, cv2.LINE_AA)
+
             im = Image.fromarray(frame)
             img = ImageTk.PhotoImage(image=im)
             lblVideo.configure(image=img)
@@ -121,5 +129,5 @@ lblimg.grid(column=0, row=0, columnspan=2)
 combo = ttk.Combobox(left_frame, state="disabled", width=10)
 combo["values"] = ["Python", "C", "C++", "Java"]
 combo.grid(column=0, row=2, padx=5, pady=5)
-
+objetoClassif = cv2.CascadeClassifier('cascade.xml')
 ventana.mainloop()
