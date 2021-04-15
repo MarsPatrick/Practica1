@@ -101,11 +101,11 @@ right_frame.grid(row=0, column=2, padx=5, pady=5)
 
 # Botones
 # Button 0
-btn0 = Button(left_frame, text='Ver previa', padx=12, pady=105, command=iniciar)
+btn0 = Button(left_frame, text='Ver previa', padx=12, pady=113, command=iniciar)
 btn0.grid(column=0, row=0, padx=5, pady=5)
 
 # Button 1
-btn1 = Button(left_frame, text='Ocultar previa', pady=105, command=finalizar, state=DISABLED)
+btn1 = Button(left_frame, text='Ocultar previa', pady=113, command=finalizar, state=DISABLED)
 btn1.grid(column=0, row=1, padx=5, pady=5)
 
 # Button 2
@@ -120,14 +120,12 @@ btn3.grid(column=0, row=1, padx=5, pady=5)
 lblVideo = Label(mid_frame)
 lblVideo.grid(column=0, row=0, columnspan=2)
 
+# Imagen de camara apagada
 img = Image.open('x.gif')
 imgn = ImageTk.PhotoImage(img)
 lblimg = Label(mid_frame, image=imgn)
 lblimg.grid(column=0, row=0, columnspan=2)
 
-# A implementar cuando exista mas de una camara
-combo = ttk.Combobox(left_frame, state="disabled", width=10)
-combo["values"] = ["Python", "C", "C++", "Java"]
-combo.grid(column=0, row=2, padx=5, pady=5)
+# XML de los objetos
 objetoClassif = cv2.CascadeClassifier('cascade.xml')
 ventana.mainloop()
