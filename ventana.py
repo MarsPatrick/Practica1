@@ -5,6 +5,8 @@ from PIL import ImageTk
 import cv2
 import imutils
 import uuid
+import pyautogui
+
 
 # XML de los objetos
 objetoClassif = cv2.CascadeClassifier('cascade.xml')
@@ -77,6 +79,18 @@ def desactivar():
 def errorcamara():
     messagebox.showerror("ERROR", "NO SE PUEDE ACCEDER A LA CAMARA")
 
+
+def coordenadas():
+    try:
+        while True:
+            x,y = pyautogui.position()
+            positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
+          ##  print(positionStr)
+    except KeyboardInterrupt:
+         print('\nDone')
+
+
+
 # Ventana
 # Creacion de Ventana
 ventana = Tk()
@@ -113,6 +127,10 @@ btn2.grid(column=0, row=0, padx=5, pady=5)
 # Button 3
 btn3 = Button(right_frame, text='Tomar foto 360', pady=113, command=tft, state=DISABLED)
 btn3.grid(column=0, row=1, padx=5, pady=5)
+
+# Coordenadas del mouse
+btnXY = Button(mid_frame, text='Coordenadas', padx=75, pady=5, command=coordenadas, state=DISABLED)
+btnXY.grid(column=0, row=1, padx=5, pady=5)
 
 # Video
 lblVideo = Label(mid_frame)
