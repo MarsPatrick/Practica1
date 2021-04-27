@@ -1,7 +1,6 @@
-import cv2
-import numpy as np
-import imutils
 import os
+import cv2
+import imutils
 
 Datos = 'n'
 if not os.path.exists(Datos):
