@@ -53,6 +53,7 @@ def visualizar():
             img = ImageTk.PhotoImage(image=im)
             lblVideo.configure(image=img)
             lblVideo.image = img
+            coordenadas()
             lblVideo.after(10, visualizar)
         else:
             lblVideo.image = ""
@@ -69,27 +70,24 @@ def activar():
     btn1['state'] = NORMAL
     btn2['state'] = NORMAL
     btn3['state'] = NORMAL
+    lblXY['state'] = NORMAL
 
 def desactivar():
     btn0['state'] = NORMAL
     btn1['state'] = DISABLED
     btn2['state'] = DISABLED
     btn3['state'] = DISABLED
+    lblXY['state'] = DISABLED
+    lblXY.config(text='Coordenadas: '+'X: ' + str(0).rjust(4) + ' Y: ' + str(0).rjust(4))
 
 def errorcamara():
     messagebox.showerror("ERROR", "NO SE PUEDE ACCEDER A LA CAMARA")
 
 
 def coordenadas():
-    try:
-        while True:
-            x,y = pyautogui.position()
-            positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
-          ##  print(positionStr)
-    except KeyboardInterrupt:
-         print('\nDone')
-
-
+    x, y = pyautogui.position()
+    positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
+    lblXY.config(text='Coordenadas: '+positionStr)
 
 # Ventana
 # Creacion de Ventana
@@ -129,8 +127,8 @@ btn3 = Button(right_frame, text='Tomar foto 360', pady=113, command=tft, state=D
 btn3.grid(column=0, row=1, padx=5, pady=5)
 
 # Coordenadas del mouse
-btnXY = Button(mid_frame, text='Coordenadas', padx=75, pady=5, command=coordenadas, state=DISABLED)
-btnXY.grid(column=0, row=1, padx=5, pady=5)
+lblXY = Label(mid_frame, text='Coordenadas: '+'X: ' + str(0).rjust(4) + ' Y: ' + str(0).rjust(4), padx=75, pady=5, state=DISABLED)
+lblXY.grid(column=0, row=1, padx=5, pady=5)
 
 # Video
 lblVideo = Label(mid_frame)
