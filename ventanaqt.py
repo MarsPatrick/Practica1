@@ -48,7 +48,6 @@ class ventanaui(QMainWindow):
         img=img.rgbSwapped()
         self.lblVideo.setPixmap(QPixmap.fromImage(img))
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     GUI = ventanaui()
