@@ -13,7 +13,7 @@ class ventanaui(QMainWindow):
 
         self.desactivar()
         self.btn0.clicked.connect(self.activar)
-        self.btn0.clicked.connect(self.viewCam)
+        #self.btn0.clicked.connect(self.viewCam)
         self.btn1.clicked.connect(self.desactivar)
 
 
