@@ -5,7 +5,6 @@ from PIL import ImageTk
 import cv2
 import imutils
 import uuid
-import pyautogui
 
 
 # XML de los objetos
@@ -53,7 +52,6 @@ def visualizar():
             img = ImageTk.PhotoImage(image=im)
             lblVideo.configure(image=img)
             lblVideo.image = img
-            coordenadas()
             lblVideo.after(10, visualizar)
         else:
             lblVideo.image = ""
@@ -70,24 +68,16 @@ def activar():
     btn1['state'] = NORMAL
     btn2['state'] = NORMAL
     btn3['state'] = NORMAL
-    lblXY['state'] = NORMAL
 
 def desactivar():
     btn0['state'] = NORMAL
     btn1['state'] = DISABLED
     btn2['state'] = DISABLED
     btn3['state'] = DISABLED
-    lblXY['state'] = DISABLED
-    lblXY.config(text='Coordenadas: '+'X: ' + str(0).rjust(4) + ' Y: ' + str(0).rjust(4))
 
 def errorcamara():
     messagebox.showerror("ERROR", "NO SE PUEDE ACCEDER A LA CAMARA")
 
-
-def coordenadas():
-    x, y = pyautogui.position()
-    positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
-    lblXY.config(text='Coordenadas: '+positionStr)
 
 # Ventana
 # Creacion de Ventana
@@ -104,10 +94,10 @@ left_frame = Frame(ventana, width=200, height=400, bg='grey')
 left_frame.grid(row=0, column=0, padx=5, pady=5)
 
 mid_frame = Frame(ventana)
-mid_frame.grid(row=0, column=1, padx=5, pady=5)
+mid_frame.grid(row=0, column=2, padx=5, pady=5)
 
 right_frame = Frame(ventana, width=650, height=400, bg='grey')
-right_frame.grid(row=0, column=2, padx=5, pady=5)
+right_frame.grid(row=0, column=1, padx=5, pady=5)
 
 # Botones
 # Button 0
@@ -125,10 +115,6 @@ btn2.grid(column=0, row=0, padx=5, pady=5)
 # Button 3
 btn3 = Button(right_frame, text='Tomar foto 360', pady=113, command=tft, state=DISABLED)
 btn3.grid(column=0, row=1, padx=5, pady=5)
-
-# Coordenadas del mouse
-lblXY = Label(mid_frame, text='Coordenadas: '+'X: ' + str(0).rjust(4) + ' Y: ' + str(0).rjust(4), padx=75, pady=5, state=DISABLED)
-lblXY.grid(column=0, row=1, padx=5, pady=5)
 
 # Video
 lblVideo = Label(mid_frame)
