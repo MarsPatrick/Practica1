@@ -13,7 +13,7 @@ class ventanaui(QMainWindow):
 
         self.desactivar()
         self.btn0.clicked.connect(self.activar)
-        #self.btn0.clicked.connect(self.viewCam)
+        self.btn0.clicked.connect(self.viewCam)
         self.btn1.clicked.connect(self.desactivar)
 
 
@@ -30,9 +30,9 @@ class ventanaui(QMainWindow):
         self.btn3.setEnabled(False)
 
     def viewCam(self):
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         while cap.isOpened():
-            ret, frame = cap
+            ret, frame = cap.read()
             if ret == True:
                 self.displayImage(frame,1)
                 cv2.waitKey()
