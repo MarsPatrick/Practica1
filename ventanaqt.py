@@ -4,6 +4,9 @@ from PyQt5.QtGui import QPixmap, QImage
 import cv2
 import sys
 
+def cam():
+    global cap
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 class ventanaui(QMainWindow):
 
@@ -11,7 +14,7 @@ class ventanaui(QMainWindow):
         super().__init__()
         uic.loadUi("untitled.ui", self)
 
-        self.desactivar()
+
         self.btn0.clicked.connect(self.activar)
         self.btn0.clicked.connect(self.viewCam)
         self.btn1.clicked.connect(self.desactivar)
@@ -24,13 +27,19 @@ class ventanaui(QMainWindow):
         self.btn3.setEnabled(True)
 
     def desactivar(self):
+        global cap
+        cap.release()
+
         self.btn0.setEnabled(True)
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
 
+
+
     def viewCam(self):
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        global cap
+        cam()
         while cap.isOpened():
             ret, frame = cap.read()
             if ret == True:
