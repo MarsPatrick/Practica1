@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1522</width>
+    <width>2334</width>
     <height>622</height>
    </rect>
   </property>
@@ -25,8 +25,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1501</width>
-      <height>582</height>
+      <width>1532</width>
+      <height>601</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_4" stretch="90,10">
@@ -78,7 +78,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout" stretch="25,70,5">
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,70,5">
          <property name="sizeConstraint">
           <enum>QLayout::SetNoConstraint</enum>
          </property>
@@ -98,6 +98,9 @@
            </property>
            <property name="text">
             <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>cimubb.jpg</pixmap>
            </property>
           </widget>
          </item>
@@ -174,7 +177,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,95">
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
          <property name="sizeConstraint">
           <enum>QLayout::SetDefaultConstraint</enum>
          </property>
