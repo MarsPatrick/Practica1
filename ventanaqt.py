@@ -3,6 +3,9 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QPixmap, QImage
 import cv2
 import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+from PyQt5.QtGui import QIcon, QPixmap
+
 
 def cam():
     global cap
@@ -35,6 +38,9 @@ class ventanaui(QMainWindow):
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
 
+        img = QImage(1, 1, 0, QImage.Format_Indexed8)
+        img= img.rgbSwapped()
+        self.lblVideo.setPixmap(QPixmap.fromImage(img))
 
 
     def viewCam(self):
