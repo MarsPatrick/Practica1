@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QPixmap, QImage
 import cv2
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMessageBox, QPushButton
 from PyQt5.QtGui import QIcon, QPixmap
 
 
@@ -40,17 +40,25 @@ class ventanaui(QMainWindow):
 
         img = QImage(1, 1, 0, QImage.Format_Indexed8)
         img= img.rgbSwapped()
-        self.lblVideo.setPixmap(QPixmap.fromImage(img))
-
+        self.lblVideo.setPixmap(QPixmap('x2.jpg'))
 
     def viewCam(self):
         global cap
         cam()
+        a=0
         while cap.isOpened():
+            a=1
             ret, frame = cap.read()
             if ret == True:
                 self.displayImage(frame,1)
                 cv2.waitKey()
+        else:
+            if a == 0:
+                self.errorcamara()
+                self.btn0.setEnabled(True)
+                self.btn1.setEnabled(False)
+                self.btn2.setEnabled(False)
+                self.btn3.setEnabled(False)
 
     def displayImage(self,img,window=1):
         qformat = QImage.Format_Indexed8
@@ -63,6 +71,9 @@ class ventanaui(QMainWindow):
         img=img.rgbSwapped()
         self.lblVideo.setPixmap(QPixmap.fromImage(img))
 
+    def errorcamara(self):
+        QMessageBox.about(self, "ERROR", "NO SE PUEDE ACCEDER A LA CAMARA" )
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     GUI = ventanaui()
@@ -72,5 +83,6 @@ if __name__ == '__main__':
 # XML de los objetos
 objetoClassif = cv2.CascadeClassifier('cascade.xml')
 
-def errorcamara():
-    print("error")
+
+
+
