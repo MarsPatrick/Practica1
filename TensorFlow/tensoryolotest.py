@@ -2,10 +2,12 @@ import cv2
 import numpy as np
 import sys
 from PyQt5 import uic
-from PyQt5.QtGui import QImage
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMessageBox, QPushButton
+from PyQt5.QtGui import QIcon, QPixmap
+
+
 
 cap = cv2.VideoCapture(0)
 whT = 416
@@ -80,23 +82,37 @@ class ventanaui(QMainWindow):
 
         img = QImage(1, 1, 0, QImage.Format_Indexed8)
         img = img.rgbSwapped()
-        self.lblVideo.setPixmap(QPixmap.fromImage(img))
+        self.lblVideo.setPixmap(QPixmap('x2.jpg'))
 
     def viewCam(self):
         global cap
         cam()
+        a=0
         while cap.isOpened():
-            success, img = cap.read()
+            a=1
+            ret, frame = cap.read()
+            uccess, img = cap.read()
             blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
             net.setInput(blob)
             layerNames = net.getLayerNames()
             outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
             outputs = net.forward(outputNames)
             findObjects(outputs, img)
-            #aca va pa mandarlo al label
+            # reemplazar  el imshow por algo que lo muestre en la ui
+            cv2.imshow('Image', img)
             cv2.waitKey(1)
+            if ret == True:
+                self.displayImage(frame,1)
+                cv2.waitKey()
+        else:
+            if a == 0:
+                self.errorcamara()
+                self.btn0.setEnabled(True)
+                self.btn1.setEnabled(False)
+                self.btn2.setEnabled(False)
+                self.btn3.setEnabled(False)
 
-def displayImage(self, img, window=1):
+    def displayImage(self, img, window=1):
         qformat = QImage.Format_Indexed8
         if len(img.shape) == 3:
             if (img.shape[2]) == 4:
@@ -108,11 +124,15 @@ def displayImage(self, img, window=1):
         self.lblVideo.setPixmap(QPixmap.fromImage(img))
 
 
-def imageOpenCv2ToQImage(self, cv_img):
-    height, width, bytesPerComponent = cv_img.shape
-    bytesPerLine = bytesPerComponent * width;
-    cv2.cvtColor(cv_img, cv2.CV_BGR2RGB, cv_img)
-    self.lblVideo.setPixmap(cv_img.data, width, height, bytesPerLine, QImage.Format_RGB888)
+    def imageOpenCv2ToQImage(self, cv_img):
+        height, width, bytesPerComponent = cv_img.shape
+        bytesPerLine = bytesPerComponent * width;
+        cv2.cvtColor(cv_img, cv2.CV_BGR2RGB, cv_img)
+        self.lblVideo.setPixmap(cv_img.data, width, height, bytesPerLine, QImage.Format_RGB888)
+
+    def errorcamara(self):
+        QMessageBox.about(self, "ERROR", "NO SE PUEDE ACCEDER A LA CAMARA" )
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -120,5 +140,5 @@ if __name__ == '__main__':
     GUI.show()
     sys.exit(app.exec_())
 
-def errorcamara():
-    print("error")
+# XML de los objetos
+objetoClassif = cv2.CascadeClassifier('cascade.xml')
