@@ -93,7 +93,8 @@ class ventanaui(QMainWindow):
             outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
             outputs = net.forward(outputNames)
             findObjects(outputs, img)
-            #aca va pa mandarlo al label
+            #reemplazar  el imshow por algo que lo muestre en la ui
+            cv2.imshow('Image', img)
             cv2.waitKey(1)
 
 def displayImage(self, img, window=1):
@@ -110,8 +111,8 @@ def displayImage(self, img, window=1):
 
 def imageOpenCv2ToQImage(self, cv_img):
     height, width, bytesPerComponent = cv_img.shape
-    bytesPerLine = bytesPerComponent * width;
-    cv2.cvtColor(cv_img, cv2.CV_BGR2RGB, cv_img)
+    bytesPerLine = bytesPerComponent * width
+    cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB, cv_img)
     self.lblVideo.setPixmap(cv_img.data, width, height, bytesPerLine, QImage.Format_RGB888)
 
 if __name__ == '__main__':
