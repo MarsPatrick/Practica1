@@ -84,8 +84,12 @@ class ventanaui(QMainWindow):
             outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
             outputs = net.forward(outputNames)
             findObjects(outputs, img)
-            self.displayImage(img)
-            cv2.waitKey(1)
+            if img == True:
+                self.displayImage(img)
+                cv2.waitKey(1)
+            else:
+                self.activar()
+                self.errorcamara()
 
     def displayImage(self, img, window=1):
         qformat = QImage.Format_Indexed8
