@@ -49,12 +49,12 @@ def findObjects(outputs, img):
         cv2.putText(img, f'{classNames[classIds[i]].upper()} {int(confs[i] * 100)}%',
                     (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
 
+
 class ventanaui(QMainWindow):
 
     def __init__(self):
         super().__init__()
         uic.loadUi("untitled.ui", self)
-
         self.btn0.clicked.connect(self.activar)
         self.btn0.clicked.connect(self.viewCam)
         self.btn1.clicked.connect(self.desactivar)
@@ -72,9 +72,7 @@ class ventanaui(QMainWindow):
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
-
         self.lblVideo.setPixmap(QPixmap('x2.jpg'))
-
 
     def viewCam(self):
         global cap
@@ -88,7 +86,6 @@ class ventanaui(QMainWindow):
             findObjects(outputs, img)
             self.displayImage(img)
             cv2.waitKey(1)
-
 
     def displayImage(self, img, window=1):
         qformat = QImage.Format_Indexed8
@@ -104,9 +101,9 @@ class ventanaui(QMainWindow):
     def errorcamara(self):
         print("error")
 
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     GUI = ventanaui()
     GUI.show()
     sys.exit(app.exec_())
-
