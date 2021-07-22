@@ -7,7 +7,6 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMessageBox, QPushButton
 from PyQt5.QtGui import QIcon, QPixmap
 
-cap = cv2.VideoCapture(0)
 whT = 416
 confThreshold = 0.5
 nmsThreshold = 0.3
@@ -60,6 +59,8 @@ class ventanaui(QMainWindow):
         self.btn1.clicked.connect(self.desactivar)
 
     def activar(self):
+        global cap
+        cap = cv2.VideoCapture(0)
         self.btn0.setEnabled(False)
         self.btn1.setEnabled(True)
         self.btn2.setEnabled(True)
@@ -73,6 +74,7 @@ class ventanaui(QMainWindow):
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
         self.lblVideo.setPixmap(QPixmap('x2.jpg'))
+
 
     def viewCam(self):
         global cap
