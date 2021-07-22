@@ -72,9 +72,10 @@ class ventanaui(QMainWindow):
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
-        self.lblVideo.setPixmap(QPixmap('x2.jpg'))
         global cap
         cap.release()
+        self.lblVideo.setPixmap(QPixmap('x2.jpg'))
+
 
 
     def viewCam(self):
