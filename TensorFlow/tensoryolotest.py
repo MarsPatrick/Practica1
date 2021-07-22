@@ -2,12 +2,10 @@ import cv2
 import numpy as np
 import sys
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QApplication
-from PyQt5.QtGui import QPixmap, QImage
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMessageBox, QPushButton
-from PyQt5.QtGui import QIcon, QPixmap
-
-
+from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMainWindow
 
 cap = cv2.VideoCapture(0)
 whT = 416
@@ -24,6 +22,7 @@ modelWeights = 'yolov3.weights'
 net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+
 
 def findObjects(outputs, img):
     hT, wT, cT = img.shape
@@ -50,11 +49,6 @@ def findObjects(outputs, img):
         cv2.putText(img, f'{classNames[classIds[i]].upper()} {int(confs[i] * 100)}%',
                     (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
 
-def cam():
-    global cap
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-
-
 class ventanaui(QMainWindow):
 
     def __init__(self):
@@ -80,37 +74,23 @@ class ventanaui(QMainWindow):
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
 
-        img = QImage(1, 1, 0, QImage.Format_Indexed8)
-        img = img.rgbSwapped()
-        self.lblVideo.setPixmap(QPixmap('x2.jpg'))
 
     def viewCam(self):
         global cap
-        cam()
-        a=0
         while cap.isOpened():
-            a=1
-            ret, frame = cap.read()
-            uccess, img = cap.read()
+            success, img = cap.read()
+            img2 = img
             blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
             net.setInput(blob)
             layerNames = net.getLayerNames()
             outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
             outputs = net.forward(outputNames)
             findObjects(outputs, img)
-            # reemplazar  el imshow por algo que lo muestre en la ui
-            cv2.imshow('Image', img)
+            #reemplazar  el imshow por algo que lo muestre en la ui
+            self.displayImage(img)
+            #cv2.imshow('im',img)
             cv2.waitKey(1)
-            if ret == True:
-                self.displayImage(frame,1)
-                cv2.waitKey()
-        else:
-            if a == 0:
-                self.errorcamara()
-                self.btn0.setEnabled(True)
-                self.btn1.setEnabled(False)
-                self.btn2.setEnabled(False)
-                self.btn3.setEnabled(False)
+
 
     def displayImage(self, img, window=1):
         qformat = QImage.Format_Indexed8
@@ -126,13 +106,12 @@ class ventanaui(QMainWindow):
 
     def imageOpenCv2ToQImage(self, cv_img):
         height, width, bytesPerComponent = cv_img.shape
-        bytesPerLine = bytesPerComponent * width;
-        cv2.cvtColor(cv_img, cv2.CV_BGR2RGB, cv_img)
+        bytesPerLine = bytesPerComponent * width
+        cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB, cv_img)
         self.lblVideo.setPixmap(cv_img.data, width, height, bytesPerLine, QImage.Format_RGB888)
 
     def errorcamara(self):
-        QMessageBox.about(self, "ERROR", "NO SE PUEDE ACCEDER A LA CAMARA" )
-
+        print("error")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -140,5 +119,3 @@ if __name__ == '__main__':
     GUI.show()
     sys.exit(app.exec_())
 
-# XML de los objetos
-objetoClassif = cv2.CascadeClassifier('cascade.xml')
