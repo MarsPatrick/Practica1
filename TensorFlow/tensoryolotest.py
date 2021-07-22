@@ -68,11 +68,12 @@ class ventanaui(QMainWindow):
     def desactivar(self):
         global cap
         cap.release()
-
         self.btn0.setEnabled(True)
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
+
+        self.lblVideo.setPixmap(QPixmap('x2.jpg'))
 
 
     def viewCam(self):
