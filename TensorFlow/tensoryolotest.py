@@ -80,16 +80,13 @@ class ventanaui(QMainWindow):
         global cap
         while cap.isOpened():
             success, img = cap.read()
-            img2 = img
             blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
             net.setInput(blob)
             layerNames = net.getLayerNames()
             outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
             outputs = net.forward(outputNames)
             findObjects(outputs, img)
-            #reemplazar  el imshow por algo que lo muestre en la ui
             self.displayImage(img)
-            #cv2.imshow('im',img)
             cv2.waitKey(1)
 
 
@@ -103,13 +100,6 @@ class ventanaui(QMainWindow):
         img = QImage(img, img.shape[1], img.shape[0], qformat)
         img = img.rgbSwapped()
         self.lblVideo.setPixmap(QPixmap.fromImage(img))
-
-
-    def imageOpenCv2ToQImage(self, cv_img):
-        height, width, bytesPerComponent = cv_img.shape
-        bytesPerLine = bytesPerComponent * width
-        cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB, cv_img)
-        self.lblVideo.setPixmap(cv_img.data, width, height, bytesPerLine, QImage.Format_RGB888)
 
     def errorcamara(self):
         print("error")
