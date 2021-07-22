@@ -11,6 +11,7 @@ whT = 416
 confThreshold = 0.5
 nmsThreshold = 0.3
 
+global cap
 classesFile = 'coco.names'
 classNames = []
 with open(classesFile, 'rt') as f:
@@ -60,33 +61,32 @@ class ventanaui(QMainWindow):
 
     def activar(self):
         global cap
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         self.btn0.setEnabled(False)
         self.btn1.setEnabled(True)
         self.btn2.setEnabled(True)
         self.btn3.setEnabled(True)
 
     def desactivar(self):
-        global cap
-        cap.release()
         self.btn0.setEnabled(True)
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
         self.lblVideo.setPixmap(QPixmap('x2.jpg'))
+        global cap
+        cap.release()
 
 
     def viewCam(self):
-        global cap
         while cap.isOpened():
             success, img = cap.read()
-            blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
-            net.setInput(blob)
-            layerNames = net.getLayerNames()
-            outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
-            outputs = net.forward(outputNames)
-            findObjects(outputs, img)
             if success == True:
+                blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
+                net.setInput(blob)
+                layerNames = net.getLayerNames()
+                outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+                outputs = net.forward(outputNames)
+                findObjects(outputs, img)
                 self.displayImage(img)
                 cv2.waitKey(1)
             else:
