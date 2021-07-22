@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 import sys
 from PyQt5 import uic
-from PyQt5.QtGui import QImage
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMessageBox, QPushButton
+from PyQt5.QtGui import QIcon, QPixmap
 
 cap = cv2.VideoCapture(0)
 whT = 416
@@ -84,7 +84,7 @@ class ventanaui(QMainWindow):
             outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
             outputs = net.forward(outputNames)
             findObjects(outputs, img)
-            if img == True:
+            if success == True:
                 self.displayImage(img)
                 cv2.waitKey(1)
             else:
@@ -103,7 +103,7 @@ class ventanaui(QMainWindow):
         self.lblVideo.setPixmap(QPixmap.fromImage(img))
 
     def errorcamara(self):
-        print("error")
+        QMessageBox.about(self, "ERROR", "NO SE PUEDE ACCEDER A LA CAMARA")
 
 
 if __name__ == '__main__':
