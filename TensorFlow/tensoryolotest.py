@@ -2,10 +2,8 @@ import cv2
 import numpy as np
 import sys
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 from PyQt5.QtGui import QPixmap, QImage
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QMessageBox, QPushButton
-from PyQt5.QtGui import QIcon, QPixmap
 
 whT = 416
 confThreshold = 0.5
@@ -76,12 +74,10 @@ class ventanaui(QMainWindow):
         cap.release()
         self.lblVideo.setPixmap(QPixmap('x2.jpg'))
 
-
-
     def viewCam(self):
         while cap.isOpened():
             success, img = cap.read()
-            if success == True:
+            if success:
                 blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
                 net.setInput(blob)
                 layerNames = net.getLayerNames()
