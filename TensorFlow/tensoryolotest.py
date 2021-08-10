@@ -70,14 +70,12 @@ class ventanaui(QMainWindow):
         self.btn0.setEnabled(False)
         self.btn1.setEnabled(True)
         self.btn2.setEnabled(True)
-        self.btn3.setEnabled(True)
         self.btn4.setEnabled(True)
 
     def desactivar(self):
         self.btn0.setEnabled(True)
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
-        self.btn3.setEnabled(False)
         self.btn4.setEnabled(False)
         global cap
         cap.release()
