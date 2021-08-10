@@ -51,7 +51,7 @@ def findObjects(outputs, img):
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 255), 2)
         cv2.putText(img, f'{classNames[classIds[i]].upper()} {int(confs[i] * 100)}%',
                     (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
-        print("esta wea "+classNames[classIds[i]].upper())
+        nombre = classNames[classIds[i]].upper()
 
 
 class ventanaui(QMainWindow):
@@ -125,9 +125,12 @@ class ventanaui(QMainWindow):
 
     def tomarfoto(self):
         leido, frame = cap.read()
-        global Directorio, cont
+        global Directorio, cont, nombre
         if leido:
-            nombre_foto = "xd.png"
+            if nombre == '':
+                nombre = "objetonoreconocido"
+            nombre_foto = nombre
+
             dire = Directorio + "/FotoGuardada"
             if not os.path.exists(dire):
                 os.makedirs(dire)
