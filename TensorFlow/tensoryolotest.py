@@ -1,15 +1,19 @@
 import cv2
 import numpy as np
 import sys
+import os
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QFileDialog
 from PyQt5.QtGui import QPixmap, QImage
+
+global Directorio, cont, cap, nombre
+Directorio = os.getcwd()
+cont = 0
 
 whT = 416
 confThreshold = 0.5
 nmsThreshold = 0.3
 
-global cap
 classesFile = 'coco.names'
 classNames = []
 with open(classesFile, 'rt') as f:
@@ -23,6 +27,7 @@ net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 
 
 def findObjects(outputs, img):
+    global nombre
     hT, wT, cT = img.shape
     bbox = []
     classIds = []
@@ -46,16 +51,18 @@ def findObjects(outputs, img):
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 255), 2)
         cv2.putText(img, f'{classNames[classIds[i]].upper()} {int(confs[i] * 100)}%',
                     (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
+        print("esta wea "+classNames[classIds[i]].upper())
 
 
 class ventanaui(QMainWindow):
-
     def __init__(self):
         super().__init__()
         uic.loadUi("untitled.ui", self)
         self.btn0.clicked.connect(self.activar)
         self.btn0.clicked.connect(self.viewCam)
         self.btn1.clicked.connect(self.desactivar)
+        self.btn2.clicked.connect(self.tomarfoto)
+        self.btn4.clicked.connect(self.guardar_ruta)
 
     def activar(self):
         global cap
@@ -64,12 +71,14 @@ class ventanaui(QMainWindow):
         self.btn1.setEnabled(True)
         self.btn2.setEnabled(True)
         self.btn3.setEnabled(True)
+        self.btn4.setEnabled(True)
 
     def desactivar(self):
         self.btn0.setEnabled(True)
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
         self.btn3.setEnabled(False)
+        self.btn4.setEnabled(False)
         global cap
         cap.release()
         self.lblVideo.setPixmap(QPixmap('x2.jpg'))
@@ -90,7 +99,7 @@ class ventanaui(QMainWindow):
                 self.activar()
                 self.errorcamara()
 
-    def displayImage(self, img, window=1):
+    def displayImage(self, img):
         qformat = QImage.Format_Indexed8
         if len(img.shape) == 3:
             if (img.shape[2]) == 4:
@@ -104,7 +113,27 @@ class ventanaui(QMainWindow):
     def errorcamara(self):
         QMessageBox.about(self, "ERROR", "NO SE PUEDE ACCEDER A LA CAMARA")
 
+    def guardar_ruta(self):
+        global Directorio
+        dialog = QFileDialog()
+        dialog.setOption(QFileDialog.ShowDirsOnly, True)
+        dialog.setWindowTitle("title")
+        dialog.setAcceptMode(QFileDialog.AcceptOpen)
+        dialog.setFileMode(QFileDialog.DirectoryOnly)
+        if dialog.exec_() == QFileDialog.Accepted:
+            Directorio = dialog.selectedFiles()[0]
 
+    def tomarfoto(self):
+        leido, frame = cap.read()
+        global Directorio, cont
+        if leido:
+            nombre_foto = "xd.png"
+            dire = Directorio + "/FotoGuardada"
+            if not os.path.exists(dire):
+                os.makedirs(dire)
+            cv2.imwrite(dire + "/" + nombre_foto + cont, frame)
+            print(" Foto tomada correctamente")
+            cont += 1
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     GUI = ventanaui()
