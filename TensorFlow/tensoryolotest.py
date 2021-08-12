@@ -6,8 +6,9 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QFileDialog
 from PyQt5.QtGui import QPixmap, QImage
 
-global Directorio, cont, cap, nombre
+global Directorio, cont, cap, nombre, text
 Directorio = os.getcwd()
+text = ""
 cont = 1
 
 whT = 416
@@ -123,7 +124,7 @@ class ventanaui(QMainWindow):
             Directorio = dialog.selectedFiles()[0]
 
     def tomarfoto(self):
-        global Directorio, cont, nombre, cap
+        global Directorio, cont, nombre, cap, text
         leido, frame = cap.read()
         if leido:
             if nombre == " ":
@@ -134,7 +135,9 @@ class ventanaui(QMainWindow):
             dire = dire + "\\" + nombre + str(cont) + ".jpg"
             if not cv2.imwrite(dire, frame):
                 raise Exception("No se puede guardar la imagen en: "+dire)
-            #self.ui.textBrowser.append("Foto tomada correctamente")
+            text = text + "Foto tomada correctamente y guardada en: " + dire
+            self.textBrowser.setText(text)
+            text = text + "\n"
             cont += 1
 if __name__ == '__main__':
     app = QApplication(sys.argv)
