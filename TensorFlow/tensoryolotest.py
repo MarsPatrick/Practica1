@@ -114,7 +114,7 @@ class ventanaui(QMainWindow):
         QMessageBox.about(self, "ERROR", "NO SE PUEDE ACCEDER A LA CAMARA")
 
     def guardar_ruta(self):
-        global Directorio
+        global Directorio, cont
         dialog = QFileDialog()
         dialog.setOption(QFileDialog.ShowDirsOnly, True)
         dialog.setWindowTitle("title")
@@ -122,6 +122,7 @@ class ventanaui(QMainWindow):
         dialog.setFileMode(QFileDialog.DirectoryOnly)
         if dialog.exec_() == QFileDialog.Accepted:
             Directorio = dialog.selectedFiles()[0]
+        cont = 1
 
     def tomarfoto(self):
         global Directorio, cont, nombre, cap, text
