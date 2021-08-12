@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap, QImage
 
 global Directorio, cont, cap, nombre
 Directorio = os.getcwd()
-cont = 0
+cont = 1
 
 whT = 416
 confThreshold = 0.5
@@ -44,6 +44,7 @@ def findObjects(outputs, img):
                 classIds.append(classId)
                 confs.append(float(confidence))
     indices = cv2.dnn.NMSBoxes(bbox, confs, confThreshold, nmsThreshold)
+    nom = " "
     for i in indices:
         i = i[0]
         box = bbox[i]
@@ -51,8 +52,8 @@ def findObjects(outputs, img):
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 255), 2)
         cv2.putText(img, f'{classNames[classIds[i]].upper()} {int(confs[i] * 100)}%',
                     (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
-        nombre = classNames[classIds[i]].upper()
-
+        nom = classNames[classIds[i]].upper()
+    nombre=nom
 
 class ventanaui(QMainWindow):
     def __init__(self):
@@ -122,18 +123,18 @@ class ventanaui(QMainWindow):
             Directorio = dialog.selectedFiles()[0]
 
     def tomarfoto(self):
+        global Directorio, cont, nombre, cap
         leido, frame = cap.read()
-        global Directorio, cont, nombre
         if leido:
-            if nombre == '':
+            if nombre == " ":
                 nombre = "objetonoreconocido"
-            nombre_foto = nombre
-
-            dire = Directorio + "/FotoGuardada"
+            dire = Directorio + "\FotoGuardada"
             if not os.path.exists(dire):
                 os.makedirs(dire)
-            cv2.imwrite(dire + "/" + nombre_foto + cont, frame)
-            print(" Foto tomada correctamente")
+            dire = dire + "\\" + nombre + str(cont) + ".jpg"
+            if not cv2.imwrite(dire, frame):
+                raise Exception("No se puede guardar la imagen en: "+dire)
+            #self.ui.textBrowser.append("Foto tomada correctamente")
             cont += 1
 if __name__ == '__main__':
     app = QApplication(sys.argv)

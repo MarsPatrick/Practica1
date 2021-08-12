@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1552</width>
+    <width>1522</width>
     <height>622</height>
    </rect>
   </property>
@@ -16,8 +16,14 @@
     <height>622</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>1522</width>
+    <height>622</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ProgramaPractica1</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget_2">
