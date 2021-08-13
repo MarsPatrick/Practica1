@@ -49,7 +49,7 @@ net = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 #   Teoricamente se puede usar CUDA para usar tarjeta grafica en vez de cpu
-#   De momento no se ha testeado
+#   De momento no funciona, quizas error de drivers
 #net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 
 #   Esta funcion recibe las capas que se encuentran en camara
