@@ -30,7 +30,7 @@ confThreshold = 0.5
 #   mientras menos valor tenga, mas agresivo sera el detector
 #   Variable modificable segun el usuario
 nmsThreshold = 0.3
-
+global a
 #   Lectura de los nombres de los objetos en el modelo entrenado
 #   Variable modificable segun el archivo de nombres
 classesFile = 'coco.names'
@@ -114,6 +114,12 @@ class ventanaui(QMainWindow):
         self.lblVideo.setPixmap(QPixmap('x2.jpg'))
 
     def viewCam(self):
+        global a
+        if cap.isOpened:
+            a=0
+        else:
+            a=1
+
         while cap.isOpened():
             success, img = cap.read()
             if success:
@@ -129,8 +135,11 @@ class ventanaui(QMainWindow):
                 findObjects(outputs, img)
                 self.displayImage(img)
                 cv2.waitKey(1)
+                if a == 1:
+                    self.desactivar()
+                    self.errorcamara()
             else:
-                self.activar()
+                self.desactivar()
                 self.errorcamara()
 
     #   Funcion que da formato a la camara y muestra la imagen en vivo
