@@ -7,12 +7,14 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QFileDialog
 from PyQt5.QtGui import QPixmap, QImage
 
 #   Declaracion de variables globales para ocupar mas adelante
-global Directorio, cont, cap0, cap1, nombre, text, a, b
+global Directorio, cont, cap0, cap1, nombre, text, a, b, confThreshold, nmsThreshold
 Directorio = os.getcwd()
 text = ""
 cont = 1
 a=2
 b=2
+confThreshold = 0.5
+nmsThreshold = 0.3
 
 #   Esta variable debe ser igual a la del yolov3.cfg
 #   Normalmente en la Linea 8 y 9 aparece width y height
@@ -21,17 +23,6 @@ b=2
 #   Variable modificable segun el cfg
 whT = 608
 
-#   confThreshold va de 0 a 1 sin ocupar el ultimo
-#   se ocupa para decir que tan preciso debe ser el detector
-#   donde 0 es 0% y 1 es 100%
-#   Variable modificable segun el usuario
-confThreshold = 0.5
-
-#   nmsThreshold va de 0 a 1 sin ocupar el ultimo
-#   se ocupa para decir que tan agresivo debe ser el detector
-#   mientras menos valor tenga, mas agresivo sera el detector
-#   Variable modificable segun el usuario
-nmsThreshold = 0.3
 #   Lectura de los nombres de los objetos en el modelo entrenado
 #   Variable modificable segun el archivo de nombres
 classesFile = 'coco.names'
@@ -57,7 +48,7 @@ net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 #   con esto, busca el porcentaje de aproximacion mas alta
 #   y devuelve el nombre con el porcentaje del objeto reconocido
 def findObjects(outputs, img):
-    global nombre
+    global nombre, confThreshold, nmsThreshold
     hT, wT, cT = img.shape
     bbox = []
     classIds = []
@@ -97,6 +88,17 @@ class ventanaui(QMainWindow):
         self.btn5.clicked.connect(self.activarCR)
         self.btn5.clicked.connect(self.viewCam)
         self.btn6.clicked.connect(self.desactivarCR)
+        self.sbp.valueChanged.connect(self.valorprecision)
+        self.sba.valueChanged.connect(self.valoragresividad)
+
+    def valoragresividad(self):
+        global nmsThreshold
+        nmsThreshold = (self.sba.value()/100)
+
+    def valorprecision(self):
+        global confThreshold
+        confThreshold = (self.sbp.value()/100)
+
 
     #   Agregarle funciones al boton que activa la camara
     def activarCR(self):
