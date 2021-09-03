@@ -7,10 +7,12 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QFileDialog
 from PyQt5.QtGui import QPixmap, QImage
 
 #   Declaracion de variables globales para ocupar mas adelante
-global Directorio, cont, cap, nombre, text
+global Directorio, cont, cap0, cap1, nombre, text, a, b
 Directorio = os.getcwd()
 text = ""
 cont = 1
+a=2
+b=2
 
 #   Esta variable debe ser igual a la del yolov3.cfg
 #   Normalmente en la Linea 8 y 9 aparece width y height
@@ -30,7 +32,6 @@ confThreshold = 0.5
 #   mientras menos valor tenga, mas agresivo sera el detector
 #   Variable modificable segun el usuario
 nmsThreshold = 0.3
-global a
 #   Lectura de los nombres de los objetos en el modelo entrenado
 #   Variable modificable segun el archivo de nombres
 classesFile = 'coco.names'
@@ -88,62 +89,101 @@ class ventanaui(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("untitled.ui", self)
-        self.btn0.clicked.connect(self.activar)
+        self.btn0.clicked.connect(self.activarCO)
         self.btn0.clicked.connect(self.viewCam)
-        self.btn1.clicked.connect(self.desactivar)
+        self.btn1.clicked.connect(self.desactivarCO)
         self.btn2.clicked.connect(self.tomarfoto)
         self.btn4.clicked.connect(self.guardar_ruta)
+        self.btn5.clicked.connect(self.activarCR)
+        self.btn5.clicked.connect(self.viewCam)
+        self.btn6.clicked.connect(self.desactivarCR)
 
     #   Agregarle funciones al boton que activa la camara
-    def activar(self):
-        global cap
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    def activarCR(self):
+        global cap0,b
+        cap0 = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+        if cap0.isOpened:
+            b=0
+        else:
+            b=1
+        self.btn5.setEnabled(False)
+        self.btn6.setEnabled(True)
+
+    def activarCO(self):
+        global cap1,a
+        cap1 = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        if cap1.isOpened:
+            a = 0
+        else:
+            a = 1
         self.btn0.setEnabled(False)
         self.btn1.setEnabled(True)
         self.btn2.setEnabled(True)
         self.btn4.setEnabled(True)
 
     #   Agregarle funciones al boton que desactiva la camara
-    def desactivar(self):
+    def desactivarCO(self):
         self.btn0.setEnabled(True)
         self.btn1.setEnabled(False)
         self.btn2.setEnabled(False)
         self.btn4.setEnabled(False)
-        global cap
-        cap.release()
+        global cap1,a
+        cap1.release()
+        a=1
         self.lblVideo.setPixmap(QPixmap('x2.jpg'))
 
-    def viewCam(self):
-        global a
-        if cap.isOpened:
-            a=0
-        else:
-            a=1
+    def desactivarCR(self):
+        self.btn5.setEnabled(True)
+        self.btn6.setEnabled(False)
+        global cap0,b
+        cap0.release()
+        b=1
+        self.lblVideo1.setPixmap(QPixmap('x2.jpg'))
 
-        while cap.isOpened():
-            success, img = cap.read()
-            if success:
-                #   Aca empieza el reconocimiento
-                #   En esta parte se empiezan a reconocer las imagenes por camara
-                #   Estas las comopara con las capas de la red neuronal
-                blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
-                net.setInput(blob)
-                layerNames = net.getLayerNames()
-                outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
-                outputs = net.forward(outputNames)
-                #   Estas se mandan a la funcion para encontrar el objeto
-                findObjects(outputs, img)
-                self.displayImage(img)
-                cv2.waitKey(1)
-                if a == 1:
-                    self.desactivar()
-                    self.errorcamara()
-            else:
-                self.desactivar()
+    def viewCamCO(self):
+        success, img = cap1.read()
+        if success:
+            #   Aca empieza el reconocimiento
+            #   En esta parte se empiezan a reconocer las imagenes por camara
+            #   Estas las comopara con las capas de la red neuronal
+            blob = cv2.dnn.blobFromImage(img, 1 / 255, (whT, whT), [0, 0, 0], 1, crop=False)
+            net.setInput(blob)
+            layerNames = net.getLayerNames()
+            outputNames = [layerNames[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+            outputs = net.forward(outputNames)
+            #   Estas se mandan a la funcion para encontrar el objeto
+            findObjects(outputs, img)
+            self.displayImageCO(img)
+            cv2.waitKey(1)
+            if a == 1:
+                self.desactivarCO()
                 self.errorcamara()
+        else:
+            self.desactivarCO()
+            self.errorcamara()
+
+    def viewCamCR(self):
+        success, img = cap0.read()
+        if success:
+            self.displayImageCR(img)
+            cv2.waitKey(1)
+            if b == 1:
+                self.desactivarCR()
+                self.errorcamara()
+        else:
+            self.desactivarCR()
+            self.errorcamara()
+
+    def viewCam(self):
+        global a,b
+        while a==0 or b==0:
+            if a==0:
+                self.viewCamCO()
+            if b==0:
+                self.viewCamCR()
 
     #   Funcion que da formato a la camara y muestra la imagen en vivo
-    def displayImage(self, img):
+    def displayImageCO(self, img):
         qformat = QImage.Format_Indexed8
         if len(img.shape) == 3:
             if (img.shape[2]) == 4:
@@ -153,6 +193,17 @@ class ventanaui(QMainWindow):
         img = QImage(img, img.shape[1], img.shape[0], qformat)
         img = img.rgbSwapped()
         self.lblVideo.setPixmap(QPixmap.fromImage(img))
+
+    def displayImageCR(self, img):
+        qformat = QImage.Format_Indexed8
+        if len(img.shape) == 3:
+            if (img.shape[2]) == 4:
+                qformat = QImage.Format_RGBA8888
+            else:
+                qformat = QImage.Format_RGB888
+        img = QImage(img, img.shape[1], img.shape[0], qformat)
+        img = img.rgbSwapped()
+        self.lblVideo1.setPixmap(QPixmap.fromImage(img))
 
     #   Funcion que arroja en caso de no encontrar una camara
     #   Esta funcion puede fallar debido que en cierta actualizacion de windows 10
@@ -176,8 +227,8 @@ class ventanaui(QMainWindow):
     #   la cual es donde se esta ocupando o la ruta elegida por el usuario
     #   y se guarda en una carpeta llamada FotoGuardada para mas comodidad
     def tomarfoto(self):
-        global Directorio, cont, nombre, cap, text
-        leido, frame = cap.read()
+        global Directorio, cont, nombre, cap1, text
+        leido, frame = cap1.read()
         if leido:
             if nombre == " ":
                 #   Variable que le da nombre al objeto en caso de no
