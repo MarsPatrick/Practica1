@@ -6,18 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2334</width>
+    <width>1541</width>
     <height>622</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1522</width>
+    <width>1541</width>
+    <height>622</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1541</width>
     <height>622</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ProgramaPractica1</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -25,7 +31,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1558</width>
+      <width>1532</width>
       <height>601</height>
      </rect>
     </property>
@@ -76,6 +82,9 @@
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
            </property>
+           <property name="pixmap">
+            <pixmap>x2.jpg</pixmap>
+           </property>
           </widget>
          </item>
         </layout>
@@ -87,6 +96,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_5">
+           <property name="minimumSize">
+            <size>
+             <width>183</width>
+             <height>101</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>183</width>
@@ -125,6 +140,18 @@
              </property>
              <item>
               <widget class="QPushButton" name="btn0">
+               <property name="minimumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Activar CO</string>
                </property>
@@ -133,18 +160,45 @@
              <item>
               <widget class="QPushButton" name="btn1">
                <property name="enabled">
-                <bool>true</bool>
+                <bool>false</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
                </property>
                <property name="text">
                 <string>Desactivar CO</string>
                </property>
-               <property name="autoRepeatInterval">
-                <number>100</number>
+               <property name="checkable">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="btn2">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Tomar Foto</string>
                </property>
@@ -152,6 +206,21 @@
              </item>
              <item>
               <widget class="QPushButton" name="btn3">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>96</width>
+                 <height>23</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Tomar Panoramica</string>
                </property>
@@ -174,26 +243,26 @@
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>0</width>
+                 <width>75</width>
                  <height>23</height>
                 </size>
                </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
+               <property name="maximumSize">
+                <size>
+                 <width>75</width>
+                 <height>23</height>
+                </size>
                </property>
                <property name="text">
                 <string>Activar CR</string>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>16</width>
-                 <height>16</height>
-                </size>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pushButton_8">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="text">
                 <string>Desactivar CR</string>
                </property>
@@ -206,7 +275,22 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QPushButton" name="pushButton_5">
+            <widget class="QPushButton" name="btn4">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>181</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>181</width>
+               <height>23</height>
+              </size>
+             </property>
              <property name="text">
               <string>Guardar en...</string>
              </property>
@@ -251,6 +335,9 @@
            <property name="text">
             <string/>
            </property>
+           <property name="pixmap">
+            <pixmap>x2.jpg</pixmap>
+           </property>
           </widget>
          </item>
         </layout>
@@ -258,7 +345,20 @@
       </layout>
      </item>
      <item>
-      <widget class="QTextBrowser" name="textBrowser"/>
+      <widget class="QTextBrowser" name="textBrowser">
+       <property name="minimumSize">
+        <size>
+         <width>1530</width>
+         <height>71</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>1530</width>
+         <height>71</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
