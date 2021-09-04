@@ -86,10 +86,19 @@ def findObjects(outputs, img):
         nom = classNames[classIds[i]].upper()
     nombre=nom
 
+def resource_path0(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(
+        sys,
+        '_MEIPASS',
+        os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 class ventanaui(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("untitled.ui", self)
+        path = resource_path0("untitled.ui")
+        uic.loadUi(path, self)
         self.btn0.clicked.connect(self.activarCO)
         self.btn0.clicked.connect(self.viewCam)
         self.btn1.clicked.connect(self.desactivarCO)
@@ -148,7 +157,8 @@ class ventanaui(QMainWindow):
         global cap1,a
         cap1.release()
         a=1
-        self.lblVideo.setPixmap(QPixmap('x2.jpg'))
+        path = resource_path0("x2.jpg")
+        self.lblVideo.setPixmap(QPixmap(path))
 
     def desactivarCR(self):
         self.btn5.setEnabled(True)
@@ -156,7 +166,8 @@ class ventanaui(QMainWindow):
         global cap0,b
         cap0.release()
         b=1
-        self.lblVideo1.setPixmap(QPixmap('x2.jpg'))
+        path = resource_path0("x2.jpg")
+        self.lblVideo1.setPixmap(QPixmap(path))
 
     def viewCamCO(self):
         success, img = cap1.read()
