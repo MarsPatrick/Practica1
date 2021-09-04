@@ -7,13 +7,23 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QFileDialog
 from PyQt5.QtGui import QPixmap, QImage
 
 #   Declaracion de variables globales para ocupar mas adelante
-global Directorio, cont, cap0, cap1, nombre, text, a, b, confThreshold, nmsThreshold
+global Directorio, cont, cap0, cap1, nombre, text, a, b, confThreshold, nmsThreshold, whT
 Directorio = os.getcwd()
 text = ""
 cont = 1
 a=2
 b=2
+
+#   confThreshold va de 0 a 1 sin ocupar el ultimo
+#   se ocupa para decir que tan preciso debe ser el detector
+#   donde 0 es 0% y 1 es 100%
+#   Variable modificable segun el usuario
 confThreshold = 0.5
+
+#   nmsThreshold va de 0 a 1 sin ocupar el ultimo
+#   se ocupa para decir que tan agresivo debe ser el detector
+#   mientras menos valor tenga, mas agresivo sera el detector
+#   Variable modificable segun el usuario
 nmsThreshold = 0.3
 
 #   Esta variable debe ser igual a la del yolov3.cfg
@@ -90,6 +100,12 @@ class ventanaui(QMainWindow):
         self.btn6.clicked.connect(self.desactivarCR)
         self.sbp.valueChanged.connect(self.valorprecision)
         self.sba.valueChanged.connect(self.valoragresividad)
+        self.cb.addItems(["608", "416", "320"])
+        self.cb.currentIndexChanged.connect(self.selectionchange)
+
+    def selectionchange(self):
+        global whT
+        whT = self.cb.currentText()
 
     def valoragresividad(self):
         global nmsThreshold

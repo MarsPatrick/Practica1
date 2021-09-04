@@ -90,7 +90,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,70,0,0,0,0,5">
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,70,0,0,0,0,0,0,5">
          <property name="sizeConstraint">
           <enum>QLayout::SetNoConstraint</enum>
          </property>
@@ -271,6 +271,16 @@
             </layout>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Tamaño</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cb"/>
          </item>
          <item>
           <widget class="QLabel" name="label_3">
